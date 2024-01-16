@@ -206,6 +206,15 @@ void PlayScene::Calculate()
 	memcpy(m_results, mappedResults, sizeof(int) * QUESTION_NUM);
 	//	アンマップ（GPUからのアクセスを再度有効にする）
 	context->Unmap(m_resultBuffer.Get(), 0);
+
+
+	//	コンピュートシェーダーの解除
+	context->CSSetShader(nullptr, nullptr, 0);
+	//	コンピュートシェーダーのバッファを解除
+	ID3D11ShaderResourceView* srvDummy = nullptr;
+	context->CSSetShaderResources(0, 1, &srvDummy);
+	ID3D11UnorderedAccessView* uavDummy = nullptr;
+	context->CSSetUnorderedAccessViews(0, 1, &uavDummy, 0);
 }
 
 
